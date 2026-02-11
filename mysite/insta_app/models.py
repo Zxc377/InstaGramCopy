@@ -54,13 +54,36 @@ class PostLike(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     like = models.BooleanField()
 
+    class Meta:
+        unique_together = ('post', 'user')
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     text = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
 
+
 class CommentLike(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     like = models.BooleanField()
+
+
+    class Meta:
+        unique_together = ('comment', 'user')
+
+
+
+class Chat(models.Model):
+    person = models.ManyToManyField(UserProfile)
+    created_date = models.DateField(auto_now_add=True)
+
+
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    message = models.TextField(null=True, blank=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    video = models.FileField(upload_to='videos/', null=True, blank=True)
+    created_date = models.DateTimeField(auto_now_add=True)

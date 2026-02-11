@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from .views import (UserProfileViewSet, FollowViewSet, RegionViewSet,
                     HashtagViewSet, PostListAPIView, ContentViewSet, PostLikeViewSet,
-                    PostDetailAPIView,CommentViewSet, CommentLikeViewSet)
+                    PostDetailAPIView,CommentViewSet, CommentLikeViewSet, RegisterView,LoginView,LogoutView)
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -11,7 +11,7 @@ from rest_framework_simplejwt.views import (
 
 
 router = routers.DefaultRouter()
-router.register('users', UserProfileViewSet)
+router.register('users', UserProfileViewSet, basename='profiles')
 router.register('follows', FollowViewSet)
 router.register('regions', RegionViewSet)
 router.register('hashtags', HashtagViewSet)
@@ -27,5 +27,8 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('post/', PostListAPIView.as_view(), name='post-list'),
     path('post/<int:pk>/', PostDetailAPIView.as_view(), name='post-detail'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 
 ]

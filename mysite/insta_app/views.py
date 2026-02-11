@@ -50,8 +50,10 @@ class LogoutView(generics.GenericAPIView):
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
-    queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+
+    def get_queryset(self):
+        return UserProfile.objects.filter(id=self.request.user.id)
 
 class FollowViewSet(viewsets.ModelViewSet):
     queryset = Follow.objects.all()
